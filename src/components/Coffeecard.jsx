@@ -2,13 +2,16 @@
 /* eslint-disable react/prop-types */
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const Coffeecard = ({ coffee }) => {
+const Coffeecard = ({ coffee , setcoffes, coffes}) => {
+  const coffeloder = useLoaderData();
+  
     const {_id, name, Supplier, Category, Chef, Taste, Details, photo } = coffee;
-    const [coffe, setCoffe]=useState(coffee)
-    console.log(coffee)
+    const [coffeeData, setCoffeeData] = useState(coffeloder)
+    // console.log(coffe)
+    
 
     const handelDelet = _id =>{
         console.log(_id)
@@ -29,7 +32,7 @@ const Coffeecard = ({ coffee }) => {
               })
               .then(res => res.json())
               .then(data =>{
-                console.log(data)
+    
                 if(data.deletedCount > 0){
                     Swal.fire(
                         'Deleted!',
@@ -37,9 +40,10 @@ const Coffeecard = ({ coffee }) => {
                         'success'
                       )
 
-                        const delet =coffe ?.filter(c => c._id !== _id)
-                        setCoffe(delet)
-                        console.log(delet)
+                      console.log(data)
+                      const remainingCoffee =coffes?.filter(coffe => coffe._id !== _id)
+                      setcoffes(remainingCoffee)
+                      console.log(remainingCoffee)
                         
                 }
               })
